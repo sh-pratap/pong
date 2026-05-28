@@ -12,6 +12,7 @@ BG_COLOR = (0, 0, 0)
 L_PADDLE_COLOR = (255, 0, 0)
 R_PADDLE_COLOR = (147, 202, 237)
 BALL_COLOR = (255, 255, 255)
+BALL_SIZE = 15
 
 screen = pg.display.set_mode((SCREEN_W, SCREEN_H))
 pg.display.set_caption("Pong")
@@ -22,7 +23,6 @@ l_paddle = pg.Rect(20, SCREEN_H // 2 - 60, 20, 120)
 r_paddle = pg.Rect(SCREEN_W - 40, SCREEN_H // 2 - 60, 20, 120)
 
 ball_cords = (SCREEN_W // 2, SCREEN_H // 2)
-ball_size = 15
 
 # Game loop
 while running:
@@ -55,9 +55,13 @@ while running:
     # Draw stuff
     pg.draw.rect(screen, L_PADDLE_COLOR, l_paddle)
     pg.draw.rect(screen, (255, 255, 255), l_paddle, 3)
+
     pg.draw.rect(screen, R_PADDLE_COLOR, r_paddle)
     pg.draw.rect(screen, (255, 255, 255), r_paddle, 3)
-    pg.draw.circle(screen, BALL_COLOR, ball_cords, ball_size)
+
+    pg.draw.circle(screen, BALL_COLOR, ball_cords, BALL_SIZE)
+    pg.draw.circle(screen, (0, 255, 255), ball_cords, BALL_SIZE, 2)
+
     pg.draw.line(screen, (255, 255, 255), (SCREEN_W // 2, 0),
                  (SCREEN_W // 2, SCREEN_H), 1)
 
