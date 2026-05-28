@@ -10,7 +10,7 @@ SCREEN_W = 800
 SCREEN_H = 600
 BG_COLOR = (0, 0, 0)
 L_PADDLE_COLOR = (255, 0, 0)
-R_PADDLE_COLOR =  (147, 202, 237) 
+R_PADDLE_COLOR = (147, 202, 237)
 BALL_COLOR = (255, 255, 255)
 
 screen = pg.display.set_mode((SCREEN_W, SCREEN_H))
@@ -37,13 +37,13 @@ while running:
     # Get the keys pressed
     keys = pg.key.get_pressed()
 
-    # Left paddle
+    # Left paddle input
     if keys[pg.K_w] and l_paddle.y >= 0:
         l_paddle.y -= 5
     if keys[pg.K_s] and l_paddle.y + l_paddle.height <= SCREEN_H:
         l_paddle.y += 5
 
-    # Right paddle
+    # Right paddle input
     if keys[pg.K_UP] and r_paddle.y >= 0:
         r_paddle.y -= 5
     if keys[pg.K_DOWN] and r_paddle.y + r_paddle.height <= SCREEN_H:
@@ -58,6 +58,8 @@ while running:
     pg.draw.rect(screen, R_PADDLE_COLOR, r_paddle)
     pg.draw.rect(screen, (255, 255, 255), r_paddle, 3)
     pg.draw.circle(screen, BALL_COLOR, ball_cords, ball_size)
+    pg.draw.line(screen, (255, 255, 255), (SCREEN_W // 2, 0),
+                 (SCREEN_W // 2, SCREEN_H), 1)
 
     # Update the screen
     pg.display.flip()
