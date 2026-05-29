@@ -22,7 +22,10 @@ running = True
 l_paddle = pg.Rect(20, SCREEN_H // 2 - 60, 20, 120)
 r_paddle = pg.Rect(SCREEN_W - 40, SCREEN_H // 2 - 60, 20, 120)
 
-ball_cords = (SCREEN_W // 2, SCREEN_H // 2)
+# ball_cords = ()
+ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
+ball_speed_x = 5
+ball_speed_y = 3
 
 # Game loop
 while running:
@@ -48,6 +51,22 @@ while running:
         r_paddle.y -= 5
     if keys[pg.K_DOWN] and r_paddle.y + r_paddle.height <= SCREEN_H:
         r_paddle.y += 5
+
+    # Apply initial push
+    ball_cords.x += ball_speed_x
+    ball_cords.y += ball_speed_y
+
+    # Ball collision on the right and left side
+    if ball_cords.x + BALL_SIZE >= SCREEN_W:
+        ball_speed_x *= -1
+    if ball_cords.x - BALL_SIZE <= 0:
+        ball_speed_x *= -1
+
+    # Ball collision on the top and bottom side
+    if ball_cords.y - BALL_SIZE <= 0:
+        ball_speed_y *= -1
+    if ball_cords.y + BALL_SIZE >= SCREEN_H:
+        ball_speed_y *= -1
 
     # Set bg color
     screen.fill(BG_COLOR)
