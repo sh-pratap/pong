@@ -34,7 +34,7 @@ while running:
             if event.key == pg.K_ESCAPE:
                 running = False
 
-    # Get the keys pressed
+    # Get the keys that are pressed
     keys = pg.key.get_pressed()
 
     # Left paddle input
