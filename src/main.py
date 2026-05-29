@@ -22,7 +22,6 @@ running = True
 l_paddle = pg.Rect(20, SCREEN_H // 2 - 60, 20, 120)
 r_paddle = pg.Rect(SCREEN_W - 40, SCREEN_H // 2 - 60, 20, 120)
 
-# ball_cords = ()
 ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
 ball_speed_x = 5
 ball_speed_y = 3
@@ -67,6 +66,17 @@ while running:
         ball_speed_y *= -1
     if ball_cords.y + BALL_SIZE >= SCREEN_H:
         ball_speed_y *= -1
+
+    # Collision with the right and left paddle
+    ball_rect = pg.Rect(ball_cords.x - BALL_SIZE, ball_cords.y -
+                        BALL_SIZE, BALL_SIZE * 2, BALL_SIZE * 2)
+
+    if ball_rect.colliderect(l_paddle):
+        ball_cords.x = l_paddle.right + BALL_SIZE
+        ball_speed_x *= -1
+    elif ball_rect.colliderect(r_paddle):
+        ball_cords.x = r_paddle.left - BALL_SIZE
+        ball_speed_x *= -1
 
     # Set bg color
     screen.fill(BG_COLOR)
