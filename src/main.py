@@ -92,6 +92,7 @@ while running:
         ball_cords.x = r_paddle.left - BALL_SIZE
         ball_speed_x *= -1
 
+    # Convert score int to be displayed on the screen
     left_text = font.render(str(score_p1), True, (255, 255, 255))
     right_text = font.render(str(score_p2), True, (255, 255, 255))
 
