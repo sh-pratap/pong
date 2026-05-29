@@ -18,6 +18,7 @@ screen = pg.display.set_mode((SCREEN_W, SCREEN_H))
 pg.display.set_caption("Pong")
 clock = pg.time.Clock()
 running = True
+font = pg.font.SysFont(None, 64)
 
 l_paddle = pg.Rect(20, SCREEN_H // 2 - 60, 20, 120)
 r_paddle = pg.Rect(SCREEN_W - 40, SCREEN_H // 2 - 60, 20, 120)
@@ -26,12 +27,16 @@ ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
 ball_speed_x = 5
 ball_speed_y = 3
 
+score_p1 = 0
+score_p2 = 0
+
 # Game loop
 while running:
     # Make sure clicking X closes the game
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_ESCAPE:
                 running = False
@@ -42,12 +47,14 @@ while running:
     # Left paddle input
     if keys[pg.K_w] and l_paddle.y >= 0:
         l_paddle.y -= 5
+
     if keys[pg.K_s] and l_paddle.y + l_paddle.height <= SCREEN_H:
         l_paddle.y += 5
 
     # Right paddle input
     if keys[pg.K_UP] and r_paddle.y >= 0:
         r_paddle.y -= 5
+
     if keys[pg.K_DOWN] and r_paddle.y + r_paddle.height <= SCREEN_H:
         r_paddle.y += 5
 
@@ -58,12 +65,18 @@ while running:
     # Ball collision on the right and left side
     if ball_cords.x + BALL_SIZE >= SCREEN_W:
         ball_speed_x *= -1
+        ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
+        score_p1 += 1
+
     if ball_cords.x - BALL_SIZE <= 0:
         ball_speed_x *= -1
+        ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
+        score_p2 += 1
 
     # Ball collision on the top and bottom side
     if ball_cords.y - BALL_SIZE <= 0:
         ball_speed_y *= -1
+
     if ball_cords.y + BALL_SIZE >= SCREEN_H:
         ball_speed_y *= -1
 
@@ -74,9 +87,13 @@ while running:
     if ball_rect.colliderect(l_paddle):
         ball_cords.x = l_paddle.right + BALL_SIZE
         ball_speed_x *= -1
+
     elif ball_rect.colliderect(r_paddle):
         ball_cords.x = r_paddle.left - BALL_SIZE
         ball_speed_x *= -1
+
+    left_text = font.render(str(score_p1), True, (255, 255, 255))
+    right_text = font.render(str(score_p2), True, (255, 255, 255))
 
     # Set bg color
     screen.fill(BG_COLOR)
@@ -93,6 +110,9 @@ while running:
 
     pg.draw.line(screen, (255, 255, 255), (SCREEN_W // 2, 0),
                  (SCREEN_W // 2, SCREEN_H), 1)
+
+    screen.blit(left_text, (SCREEN_W // 4, 20))
+    screen.blit(right_text, (SCREEN_W * 3 // 4, 20))
 
     # Update the screen
     pg.display.flip()
