@@ -29,8 +29,8 @@ ball_speed_y = 3
 score_p1 = 0
 score_p2 = 0
 
-# Game loop
-while running:
+
+def window_events():
     # Make sure clicking X closes the game
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -40,6 +40,8 @@ while running:
             if event.key == pg.K_ESCAPE:
                 running = False
 
+
+def control_paddle():
     # Get the keys that are pressed
     keys = pg.key.get_pressed()
 
@@ -61,6 +63,8 @@ while running:
     ball_cords.x += ball_speed_x
     ball_cords.y += ball_speed_y
 
+
+def check_collision_walls():
     # Ball collision on the right and left side
     if ball_cords.x + BALL_SIZE >= SCREEN_W:
         ball_speed_x *= -1
@@ -79,6 +83,8 @@ while running:
     if ball_cords.y + BALL_SIZE >= SCREEN_H:
         ball_speed_y *= -1
 
+
+def check_collision_paddles():
     # Collision with the right and left paddle
     ball_rect = pg.Rect(ball_cords.x - BALL_SIZE, ball_cords.y -
                         BALL_SIZE, BALL_SIZE * 2, BALL_SIZE * 2)
@@ -91,6 +97,8 @@ while running:
         ball_cords.x = r_paddle.left - BALL_SIZE
         ball_speed_x *= -1
 
+
+def draw_and_update():
     # Convert score int to be displayed on the screen
     left_text = font.render(str(score_p1), True, (255, 255, 255))
     right_text = font.render(str(score_p2), True, (255, 255, 255))
@@ -119,6 +127,15 @@ while running:
 
     # Lock fps to 60
     clock.tick(60)
+
+
+# Game loop
+while running:
+    window_events()
+    control_paddle()
+    check_collision_walls()
+    check_collision_paddles()
+    draw_and_update()
 
 # Exit
 pg.quit()
