@@ -1,5 +1,6 @@
 # Imports
 import pygame as pg
+import random
 
 # Init pygame
 pg.init()
@@ -23,8 +24,8 @@ l_paddle = pg.Rect(20, SCREEN_H // 2 - 60, 20, 120)
 r_paddle = pg.Rect(SCREEN_W - 40, SCREEN_H // 2 - 60, 20, 120)
 
 ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
-ball_speed_x = 5
-ball_speed_y = 3
+ball_speed_x = random.choice([-5, 5])
+ball_speed_y = random.choice([-3, 3])
 
 score_p1 = 0
 score_p2 = 0
@@ -67,10 +68,16 @@ while running:
         ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
         score_p1 += 1
 
+        ball_speed_x = random.choice([-5, 5])
+        ball_speed_y = random.choice([-3, 3])
+
     if ball_cords.x - BALL_SIZE <= 0:
         ball_speed_x *= -1
         ball_cords = pg.Vector2(SCREEN_W // 2, SCREEN_H // 2)
         score_p2 += 1
+
+        ball_speed_x = random.choice([-5, 5])
+        ball_speed_y = random.choice([-3, 3])
 
     # Ball collision on the top and bottom side
     if ball_cords.y - BALL_SIZE <= 0:
@@ -87,9 +94,24 @@ while running:
         ball_cords.x = l_paddle.right + BALL_SIZE
         ball_speed_x *= -1
 
+        ball_speed_x *= 1.05
+        ball_speed_y *= 1.05
+
     elif ball_rect.colliderect(r_paddle):
         ball_cords.x = r_paddle.left - BALL_SIZE
         ball_speed_x *= -1
+
+        ball_speed_x *= 1.05
+        ball_speed_y *= 1.05
+
+    # End game if win condition is met
+    if score_p1 >= 10:
+        print("Player 1 Wins!!")
+        running = False
+
+    if score_p2 >= 10:
+        print("Player 2 Wins!!")
+        running = False
 
     # Convert score int to be displayed on the screen
     left_text = font.render(str(score_p1), True, (255, 255, 255))
@@ -108,8 +130,9 @@ while running:
     pg.draw.circle(screen, BALL_COLOR, ball_cords, BALL_SIZE)
     pg.draw.circle(screen, (0, 255, 255), ball_cords, BALL_SIZE, 2)
 
-    pg.draw.line(screen, (255, 255, 255), (SCREEN_W // 2, 0),
-                 (SCREEN_W // 2, SCREEN_H), 1)
+    for y in range(0, SCREEN_H, 30):
+        pg.draw.rect(screen, (255, 255, 255),
+                     (SCREEN_W//2 - 2, y, 4, 15))
 
     screen.blit(left_text, (SCREEN_W // 4, 20))
     screen.blit(right_text, (SCREEN_W * 3 // 4, 20))
