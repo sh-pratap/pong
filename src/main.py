@@ -1,6 +1,5 @@
 # Imports
 import pygame as pg
-import sys
 
 # Init pygame
 pg.init()
@@ -123,4 +122,3 @@ while running:
 
 # Exit
 pg.quit()
-sys.exit()
