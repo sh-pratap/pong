@@ -92,25 +92,41 @@ while running:
 
     if ball_rect.colliderect(l_paddle):
         ball_cords.x = l_paddle.right + BALL_SIZE
-        ball_speed_x *= -1
-
         ball_speed_x *= 1.05
         ball_speed_y *= 1.05
 
     elif ball_rect.colliderect(r_paddle):
         ball_cords.x = r_paddle.left - BALL_SIZE
-        ball_speed_x *= -1
-
         ball_speed_x *= 1.05
         ball_speed_y *= 1.05
 
     # End game if win condition is met
     if score_p1 >= 10:
-        print("Player 1 Wins!!")
+        winner_text = font.render("Player 1 Wins!", True, (255, 255, 255))
+
+        screen.fill(BG_COLOR)
+        screen.blit(
+            winner_text,
+            (SCREEN_W // 2 - winner_text.get_width() // 2,
+             SCREEN_H // 2 - winner_text.get_height() // 2)
+        )
+
+        pg.display.flip()
+        pg.time.wait(3000)
         running = False
 
-    if score_p2 >= 10:
-        print("Player 2 Wins!!")
+    if score_p2 >= 2:
+        winner_text = font.render("Player 2 Wins!", True, (255, 255, 255))
+
+        screen.fill(BG_COLOR)
+        screen.blit(
+            winner_text,
+            (SCREEN_W // 2 - winner_text.get_width() // 2,
+             SCREEN_H // 2 - winner_text.get_height() // 2)
+        )
+
+        pg.display.flip()
+        pg.time.wait(3000)
         running = False
 
     # Convert score int to be displayed on the screen
