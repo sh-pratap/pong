@@ -115,7 +115,7 @@ while running:
         pg.time.wait(3000)
         running = False
 
-    if score_p2 >= 2:
+    if score_p2 >= 10:
         winner_text = font.render("Player 2 Wins!", True, (255, 255, 255))
 
         screen.fill(BG_COLOR)
